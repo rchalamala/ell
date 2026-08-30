@@ -5,12 +5,11 @@ description = "ell - the language model programming library"
 authors = [{ name = "William Guss", email = "will@lrsys.xyz" }]
 license = "MIT"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -59,7 +58,7 @@ Repository = "https://github.com/MadcowD/ell"
 ell-studio = "ell.studio.__main__:main"
 
 [dependency-groups]
-dev = ["pytest>=8.4.2"]
+dev = ["pytest>=8.4.2", "ruff>=0.8.0"]
 docs = [
     "autodoc-pydantic==2.2.0",
     "myst-parser==2.0.0",
@@ -85,3 +84,10 @@ artifacts = ["src/ell/studio/static", "src/ell/util/char_bitmaps.npy"]
 [tool.hatch.build.targets.wheel]
 packages = ["src/ell"]
 artifacts = ["src/ell/studio/static", "src/ell/util/char_bitmaps.npy"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E9", "F63", "F7", "F82"]

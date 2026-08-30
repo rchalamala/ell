@@ -11,7 +11,6 @@ from ell.studio.server import create_app
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pathlib import Path
-from watchfiles import awatch
 
 
 logger = logging.getLogger(__file__)

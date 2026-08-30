@@ -46,8 +46,14 @@ def register(client: openai.Client):
         The function doesn't return anything but updates the global
         configuration with the registered models.
     """
-    #XXX: Deprecation in 0.1.0
     standard_models = [
+        'gpt-4.1',
+        'gpt-4.1-mini',
+        'gpt-4.1-nano',
+        'gpt-5',
+        'gpt-5-mini',
+        'gpt-5-nano',
+        'gpt-5-chat-latest',
         'gpt-4-1106-preview',
         'gpt-4-32k-0314',
         'text-embedding-3-large',
@@ -90,10 +96,18 @@ def register(client: openai.Client):
     for model_id in standard_models:
         config.register_model(model_id, client)
 
-    #XXX: Deprecation in 0.1.0
-    config.register_model('o1-preview', client, supports_streaming=True)
-    config.register_model('o1-mini', client, supports_streaming=True)
-    config.register_model('o1-2024-12-17', client, supports_streaming=True)
+    reasoning_models = [
+        'o1-preview',
+        'o1-mini',
+        'o1-2024-12-17',
+        'o1',
+        'o3-mini',
+        'o3',
+        'o3-pro',
+        'o4-mini',
+    ]
+    for model_id in reasoning_models:
+        config.register_model(model_id, client, supports_streaming=True)
 default_client = None
 try:
     default_client = openai.Client()

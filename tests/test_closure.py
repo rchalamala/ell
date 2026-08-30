@@ -271,7 +271,7 @@ from ell.util.closure import lexically_closured_source
 
 def test_lexical_closure_with_error_in_function():
     def faulty_func():
-        return undefined_variable + 1  # This will raise NameError
+        return undefined_variable + 1  # noqa: F821  # This will raise NameError
     
     # with pytest.raises(Exception) as exc_info:
     lexical_closure(faulty_func)

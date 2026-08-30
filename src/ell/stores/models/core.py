@@ -16,12 +16,18 @@ from typing import Dict, List, Union, Any, Optional
 from pydantic import BaseModel
 
 from datetime import datetime
-from typing import Any, List, Optional
+from typing import TYPE_CHECKING, Any, List, Optional
 from sqlmodel import Field, SQLModel, Relationship, JSON, Column
 from sqlalchemy import Index, func
 
 
 from typing import  Any
+
+if TYPE_CHECKING:
+    from ell.stores.models.evaluations import (
+        EvaluationResultDatapoint,
+        SerializedEvaluationRun,
+    )
 
 class SerializedLMPUses(SQLModel, table=True):
     """
