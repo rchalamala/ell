@@ -30,7 +30,7 @@ try:
             final_call_params = ell_call.api_params.copy()
             final_call_params["model"] = ell_call.model
             if _is_reasoning_model(ell_call.model) and "max_tokens" in final_call_params:
-                final_call_params["max_completion_tokens"] = final_call_params.pop("max_tokens")
+                final_call_params.setdefault("max_completion_tokens", final_call_params.pop("max_tokens"))
             # Stream by default for verbose logging.
             final_call_params["stream"] = True
             final_call_params["stream_options"] = {"include_usage": True}

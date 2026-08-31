@@ -103,11 +103,14 @@ def register(client: openai.Client):
         'o1',
         'o3-mini',
         'o3',
-        'o3-pro',
         'o4-mini',
     ]
     for model_id in reasoning_models:
         config.register_model(model_id, client, supports_streaming=True)
+    # o3-pro is only served through the Responses API and does not support
+    # chat-completions streaming.
+    config.register_model('o3-pro', client, supports_streaming=False)
+
 default_client = None
 try:
     default_client = openai.Client()
