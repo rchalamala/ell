@@ -114,8 +114,6 @@ class ImageContent(BaseModel):
                     else:
                         raise ValueError(f"Unsupported numpy dtype for image: {value.dtype}")
                 mode = 'RGB' if value.shape[2] == 3 else 'RGBA'
-                if value.dtype != np.uint8:
-                    value = np.clip(value * 255 if np.issubdtype(value.dtype, np.floating) else value, 0, 255).astype(np.uint8)
                 return cls(image=PILImage.fromarray(value, mode=mode))
             else:
                 raise ValueError(f"Invalid numpy array shape for image: {value.shape}. Expected 3D array with 3 or 4 channels.")
