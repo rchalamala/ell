@@ -5,12 +5,11 @@ description = "ell - the language model programming library"
 authors = [{ name = "William Guss", email = "will@lrsys.xyz" }]
 license = "MIT"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -22,7 +21,7 @@ dependencies = [
     "colorama>=0.4.6",
     "dill>=0.4.1",
     "numpy>=2.0.2",
-    "openai>=1.51.0",
+    "openai>=3.6.0",
     "pillow>=10.4.0",
     "psutil>=7.2.2",
     "requests>=2.32.5",
@@ -30,9 +29,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-anthropic = ["anthropic>=0.34.2"]
-google = ["google-genai>=1.2.0,<2"]
-groq = ["groq>=0.11.0"]
+anthropic = ["anthropic>=1.2.0"]
+google = ["google-genai>=2.20.0,<3"]
+groq = ["groq>=1.7.0"]
 sqlite = ["alembic>=1.14.0,<2", "sqlmodel>=0.0.21,<0.1.0"]
 postgres = ["alembic>=1.14.0,<2", "psycopg2>=2.7", "sqlmodel>=0.0.21,<0.1.0"]
 studio = [
@@ -43,10 +42,10 @@ studio = [
 ]
 all = [
     "alembic>=1.14.0,<2",
-    "anthropic>=0.34.2",
+    "anthropic>=1.2.0",
     "fastapi>=0.111.1,<0.112.0",
-    "google-genai>=1.2.0,<2",
-    "groq>=0.11.0",
+    "google-genai>=2.20.0,<3",
+    "groq>=1.7.0",
     "sqlmodel>=0.0.21,<0.1.0",
     "uvicorn>=0.30.3,<0.31.0",
 ]

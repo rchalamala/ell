@@ -104,6 +104,8 @@ class ImageContent(BaseModel):
         
         if isinstance(value, np.ndarray):
             if value.ndim == 3 and value.shape[2] in (3, 4):
+                if value.dtype != np.uint8:
+                    value = (np.clip(value, 0, 1) * 255).astype(np.uint8) if np.issubdtype(value.dtype, np.floating) else value.astype(np.uint8)
                 mode = 'RGB' if value.shape[2] == 3 else 'RGBA'
                 if value.dtype != np.uint8:
                     value = np.clip(value * 255 if np.issubdtype(value.dtype, np.floating) else value, 0, 255).astype(np.uint8)
