@@ -23,11 +23,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install project dependencies
-        run: uv sync --extra all
-
-      - name: Install doc-specific dependencies
-        run: |
-          uv pip install -r docs/requirements.txt
+        run: uv sync --extra all --group docs
 
       - name: Build the documentation
         run: |
