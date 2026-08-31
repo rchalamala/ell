@@ -16,15 +16,15 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
-    "black>=25.11.0",
-    "cattrs>=25.3.0",
+    "black>=26.5.1",
+    "cattrs>=26.1.0",
     "colorama>=0.4.6",
     "dill>=0.4.1",
-    "numpy>=2.0.2",
+    "numpy>=2.2.6",
     "openai>=3.6.0",
-    "pillow>=10.4.0",
+    "pillow>=12.3.0",
     "psutil>=7.2.2",
-    "requests>=2.32.5",
+    "requests>=2.34.2",
     "typing-extensions>=4.16.0",
 ]
 
@@ -32,22 +32,22 @@ dependencies = [
 anthropic = ["anthropic>=1.2.0"]
 google = ["google-genai>=2.20.0,<3"]
 groq = ["groq>=1.7.0"]
-sqlite = ["alembic>=1.14.0,<2", "sqlmodel>=0.0.21,<0.1.0"]
-postgres = ["alembic>=1.14.0,<2", "psycopg2>=2.7", "sqlmodel>=0.0.21,<0.1.0"]
+sqlite = ["alembic>=1.19.1,<2", "sqlmodel>=0.0.42,<0.1.0"]
+postgres = ["alembic>=1.19.1,<2", "psycopg2>=2.9.12", "sqlmodel>=0.0.42,<0.1.0"]
 studio = [
-    "alembic>=1.14.0,<2",
-    "fastapi>=0.111.1,<0.112.0",
-    "sqlmodel>=0.0.21,<0.1.0",
-    "uvicorn>=0.30.3,<0.31.0",
+    "alembic>=1.19.1,<2",
+    "fastapi>=0.141.1,<0.142.0",
+    "sqlmodel>=0.0.42,<0.1.0",
+    "uvicorn>=0.52.4,<0.53.0",
 ]
 all = [
-    "alembic>=1.14.0,<2",
+    "alembic>=1.19.1,<2",
     "anthropic>=1.2.0",
-    "fastapi>=0.111.1,<0.112.0",
+    "fastapi>=0.141.1,<0.142.0",
     "google-genai>=2.20.0,<3",
     "groq>=1.7.0",
-    "sqlmodel>=0.0.21,<0.1.0",
-    "uvicorn>=0.30.3,<0.31.0",
+    "sqlmodel>=0.0.42,<0.1.0",
+    "uvicorn>=0.52.4,<0.53.0",
 ]
 
 [project.urls]
@@ -58,7 +58,7 @@ Repository = "https://github.com/MadcowD/ell"
 ell-studio = "ell.studio.__main__:main"
 
 [dependency-groups]
-dev = ["pytest>=8.4.2"]
+dev = ["pytest>=9.1.1"]
 docs = [
     "autodoc-pydantic==2.2.0",
     "myst-parser==2.0.0",
