@@ -17,38 +17,38 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
-    "numpy",
-    "dill",
-    "colorama",
-    "cattrs",
+    "black>=25.11.0",
+    "cattrs>=25.3.0",
+    "colorama>=0.4.6",
+    "dill>=0.4.1",
+    "numpy>=2.0.2",
     "openai>=1.51.0",
-    "requests",
-    "typing-extensions",
-    "black",
     "pillow>=10.4.0",
-    "psutil",
+    "psutil>=7.2.2",
+    "requests>=2.32.5",
+    "typing-extensions>=4.16.0",
 ]
 
 [project.optional-dependencies]
 anthropic = ["anthropic>=0.34.2"]
 google = ["google-genai>=1.2.0,<2"]
 groq = ["groq>=0.11.0"]
-sqlite = ["sqlmodel>=0.0.21,<0.1.0", "alembic>=1.14.0,<2"]
-postgres = ["sqlmodel>=0.0.21,<0.1.0", "psycopg2>=2.7", "alembic>=1.14.0,<2"]
+sqlite = ["alembic>=1.14.0,<2", "sqlmodel>=0.0.21,<0.1.0"]
+postgres = ["alembic>=1.14.0,<2", "psycopg2>=2.7", "sqlmodel>=0.0.21,<0.1.0"]
 studio = [
-    "fastapi>=0.111.1,<0.112.0",
-    "uvicorn>=0.30.3,<0.31.0",
-    "sqlmodel>=0.0.21,<0.1.0",
     "alembic>=1.14.0,<2",
+    "fastapi>=0.111.1,<0.112.0",
+    "sqlmodel>=0.0.21,<0.1.0",
+    "uvicorn>=0.30.3,<0.31.0",
 ]
 all = [
-    "anthropic>=0.34.2",
-    "groq>=0.11.0",
-    "google-genai>=1.2.0,<2",
-    "sqlmodel>=0.0.21,<0.1.0",
-    "fastapi>=0.111.1,<0.112.0",
-    "uvicorn>=0.30.3,<0.31.0",
     "alembic>=1.14.0,<2",
+    "anthropic>=0.34.2",
+    "fastapi>=0.111.1,<0.112.0",
+    "google-genai>=1.2.0,<2",
+    "groq>=0.11.0",
+    "sqlmodel>=0.0.21,<0.1.0",
+    "uvicorn>=0.30.3,<0.31.0",
 ]
 
 [project.urls]
@@ -59,7 +59,7 @@ Repository = "https://github.com/MadcowD/ell"
 ell-studio = "ell.studio.__main__:main"
 
 [dependency-groups]
-dev = ["pytest", "sphinx", "sphinx-rtd-theme"]
+dev = ["pytest>=8.4.2", "sphinx>=7.4.7", "sphinx-rtd-theme>=3.1.0"]
 
 [build-system]
 requires = ["hatchling"]
