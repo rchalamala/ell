@@ -15,32 +15,22 @@ jobs:
 
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
         with:
-          python-version: '3.12.4'  # Specify the Python version
-    
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
-        with:
-            version: 1.5.1
-        
+          python-version: "3.12"
+
       - name: Install project dependencies
-        run: poetry install -E all
-
-      - name: Install doc-specific dependencies
-        run: |
-          cd docs
-          poetry run pip install -r requirements.txt
+        run: uv sync --extra all --group docs
 
       - name: Build the documentation
         run: |
           cd docs
           rm -rf _build  # Remove existing build directory
-          poetry run make html  # Use poetry run to ensure the correct environment is used
-          poetry run python -c "import ell; version = ell.__version__; print(version); open('_build/html/_static/ell_version.txt', 'w').write(version)"
+          uv run make html
+          uv run python -c "import ell; version = ell.__version__; print(version); open('_build/html/_static/ell_version.txt', 'w').write(version)"
 
         # env:
           # SPHINXOPTS: "-W"  # Treat warnings as errors

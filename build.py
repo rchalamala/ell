@@ -27,7 +27,7 @@ def npm_build():
 def get_ell_version():
     pyproject_path = "pyproject.toml"
     pyproject_data = toml.load(pyproject_path)
-    return pyproject_data["tool"]["poetry"]["version"]
+    return pyproject_data["project"]["version"]
 
 
 def run_pytest():

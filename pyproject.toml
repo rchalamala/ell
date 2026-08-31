@@ -1,89 +1,87 @@
-[tool.poetry]
+[project]
 name = "ell-ai"
 version = "0.0.17"
 description = "ell - the language model programming library"
-authors = ["William Guss <will@lrsys.xyz>"]
+authors = [{ name = "William Guss", email = "will@lrsys.xyz" }]
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/MadcowD/ell"
-packages = [
-    { include = "ell", from = "src" }
-]
-homepage = "https://docs.ell.so"
+requires-python = ">=3.9"
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9"
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 ]
-include = [
-    { path = "src/ell/studio/static", format = ["sdist", "wheel"] },
-    { path = "src/ell/studio/static/**/*", format = ["sdist", "wheel"] },
-    { path = "src/ell/util/char_bitmaps.npy", format = ["sdist", "wheel"] }
+dependencies = [
+    "black>=25.11.0",
+    "cattrs>=25.3.0",
+    "colorama>=0.4.6",
+    "dill>=0.4.1",
+    "numpy>=2.0.2",
+    "openai>=1.51.0",
+    "pillow>=10.4.0",
+    "psutil>=7.2.2",
+    "requests>=2.32.5",
+    "typing-extensions>=4.16.0",
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.9"
-numpy = "*"
-dill = "*"
-colorama = "*"
-cattrs = "*"
-openai = ">=1.51.0"
-requests = "*"
-typing-extensions = "*"
-black = "*"
-pillow = ">=10.4.0"
-psutil = "*"
-
-# Providers
-anthropic = { version = ">=0.34.2", optional = true }
-groq = { version = ">=0.11.0", optional = true }
-
-# Storage
-psycopg2 = { version = ">=2.7", optional = true }
-sqlmodel = { version = ">=0.0.21, <0.1.0", optional = true }
-
-# Studio
-fastapi = { version = "^0.111.1", optional = true }
-uvicorn = { version = "^0.30.3", optional = true }
-alembic = { version = "^1.14.0", optional = true }
-google-genai = { version = "^1.2.0", optional = true }
-
-[tool.poetry.group.dev.dependencies]
-pytest = "*"
-sphinx = "*"
-sphinx-rtd-theme = "*"
-
-[tool.poetry.extras]
-# N.B. The `openai` dep is always required, but explicitly providing it via an e.g. "openai" extra
-# causes poetry to mark it as optional = true (even if explicitly specified optional = false).
-anthropic = ["anthropic"]
-google = ["google-genai"]
-groq = ["groq"]
-sqlite = [ 'sqlmodel', 'alembic' ]
-postgres = ['sqlmodel', 'psycopg2', 'alembic']
-studio = ['fastapi', 'uvicorn', 'sqlmodel', 'alembic']
+[project.optional-dependencies]
+anthropic = ["anthropic>=0.34.2"]
+google = ["google-genai>=1.2.0,<2"]
+groq = ["groq>=0.11.0"]
+sqlite = ["alembic>=1.14.0,<2", "sqlmodel>=0.0.21,<0.1.0"]
+postgres = ["alembic>=1.14.0,<2", "psycopg2>=2.7", "sqlmodel>=0.0.21,<0.1.0"]
+studio = [
+    "alembic>=1.14.0,<2",
+    "fastapi>=0.111.1,<0.112.0",
+    "sqlmodel>=0.0.21,<0.1.0",
+    "uvicorn>=0.30.3,<0.31.0",
+]
 all = [
-    "anthropic",
-    "groq",
-    "google-genai",
-    # default storage dependencies
-    'sqlmodel',
-    # allow running stduio by default
-    'fastapi',
-    'uvicorn',
-    'alembic',
+    "alembic>=1.14.0,<2",
+    "anthropic>=0.34.2",
+    "fastapi>=0.111.1,<0.112.0",
+    "google-genai>=1.2.0,<2",
+    "groq>=0.11.0",
+    "sqlmodel>=0.0.21,<0.1.0",
+    "uvicorn>=0.30.3,<0.31.0",
+]
+
+[project.urls]
+Homepage = "https://docs.ell.so"
+Repository = "https://github.com/MadcowD/ell"
+
+[project.scripts]
+ell-studio = "ell.studio.__main__:main"
+
+[dependency-groups]
+dev = ["pytest>=8.4.2"]
+docs = [
+    "autodoc-pydantic==2.2.0",
+    "myst-parser==2.0.0",
+    "pydata-sphinx-theme==0.15.2",
+    "sphinx==7.2.6",
+    "sphinx-autodoc-typehints==1.25.2",
+    "sphinx-copybutton==0.5.2",
+    "sphinx-design==0.5.0",
+    "sphinx-inline-tabs==2023.4.21",
+    "sphinx-togglebutton==0.3.2",
+    "sphinxawesome-theme==5.2.0",
+    "sphinxcontrib-mermaid==0.9.2",
 ]
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.poetry.scripts]
-ell-studio = "ell.studio.__main__:main"
+[tool.hatch.build.targets.sdist]
+include = ["/src"]
+artifacts = ["src/ell/studio/static", "src/ell/util/char_bitmaps.npy"]
 
-# [tool.poetry.build]
-# # script = "build.py"
+[tool.hatch.build.targets.wheel]
+packages = ["src/ell"]
+artifacts = ["src/ell/studio/static", "src/ell/util/char_bitmaps.npy"]
