@@ -70,6 +70,16 @@ def test_image_content_coerce_signed_int_array():
     result = ImageContent.coerce(arr)
     assert np.array_equal(np.array(result.image), np.full((2, 2, 3), 255, dtype=np.uint8))
 
+def test_image_content_coerce_bool_array():
+    from src.ell.types.message import ImageContent
+    arr = np.zeros((2, 2, 3), dtype=bool)
+    arr[0, 0] = True
+    result = ImageContent.coerce(arr)
+    out = np.array(result.image)
+    assert out.dtype == np.uint8
+    assert list(out[0, 0]) == [255, 255, 255]
+    assert list(out[1, 1]) == [0, 0, 0]
+
 def test_image_content_coerce_unsupported_dtype():
     from src.ell.types.message import ImageContent
     arr = np.zeros((2, 2, 3), dtype=np.complex128)

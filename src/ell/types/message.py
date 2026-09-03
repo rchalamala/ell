@@ -109,6 +109,8 @@ class ImageContent(BaseModel):
                         value = (np.clip(value, 0, 1) * 255).astype(np.uint8)
                     elif value.dtype.kind == 'u' and value.dtype.itemsize == 2:
                         value = (value >> 8).astype(np.uint8)
+                    elif value.dtype == np.bool_:
+                        value = value.astype(np.uint8) * 255
                     elif np.issubdtype(value.dtype, np.integer):
                         value = np.clip(value, 0, 255).astype(np.uint8)
                     else:
