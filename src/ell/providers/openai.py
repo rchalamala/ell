@@ -7,6 +7,7 @@ from ell.provider import  EllCallParams, Metadata, Provider
 from ell.types import Message, ContentBlock, ToolCall
 from ell.types._lstr import _lstr
 import json
+import re
 from ell.configurator import _Model, config, register_provider
 from ell.types.message import LMP
 from ell.util.serialization import serialize_image
@@ -29,6 +30,8 @@ try:
         def translate_to_provider(self, ell_call : EllCallParams) -> Dict[str, Any]: 
             final_call_params = ell_call.api_params.copy()
             final_call_params["model"] = ell_call.model
+            if _is_reasoning_model(ell_call.model) and "max_tokens" in final_call_params:
+                final_call_params.setdefault("max_completion_tokens", final_call_params.pop("max_tokens"))
             # Stream by default for verbose logging.
             final_call_params["stream"] = True
             final_call_params["stream_options"] = {"include_usage": True}
@@ -168,6 +171,14 @@ try:
     register_provider(openai_provider, openai.Client)
 except ImportError:
     pass
+
+_REASONING_MODEL_RE = re.compile(r"^(o1|o3|o4|gpt-5)(-|$)")
+
+def _is_reasoning_model(model: str) -> bool:
+    """OpenAI reasoning-model families (``o1``, ``o3``, ``o4``, ``gpt-5`` and
+    their ``-mini``/dated-snapshot variants) that take ``max_completion_tokens``
+    instead of ``max_tokens`` on the chat completions API."""
+    return _REASONING_MODEL_RE.match(model) is not None
 
 def _content_block_to_openai_format(content_block: ContentBlock) -> Dict[str, Any]:
     if (image := content_block.image):

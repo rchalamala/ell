@@ -30,6 +30,13 @@ try:
             ('claude-3-5-sonnet-20240620', 'anthropic'),
             ('claude-3-5-sonnet-20241022', 'anthropic'),
             ('claude-3-5-sonnet-latest', 'anthropic'),
+            ('claude-3-5-haiku-latest', 'anthropic'),
+            ('claude-3-7-sonnet-latest', 'anthropic'),
+            ('claude-sonnet-4-0', 'anthropic'),
+            ('claude-opus-4-0', 'anthropic'),
+            ('claude-opus-4-1', 'anthropic'),
+            ('claude-sonnet-4-5', 'anthropic'),
+            ('claude-haiku-4-5', 'anthropic'),
         ]
         for model_id, owned_by in model_data:
             config.register_model(model_id, client)

@@ -4,6 +4,7 @@ from pathlib import Path
 import sysconfig
 import sys
 import os
+import importlib.util
 
 # Import the function to be tested
 from src.ell.util.should_import import should_import

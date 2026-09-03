@@ -46,6 +46,47 @@ def test_content_block_coerce_base_model():
     assert result.type == "parsed"
 
 
+def test_image_content_coerce_float_array():
+    from src.ell.types.message import ImageContent
+    arr = np.full((2, 2, 3), 0.5, dtype=np.float64)
+    result = ImageContent.coerce(arr)
+    assert np.array_equal(np.array(result.image), np.full((2, 2, 3), 127, dtype=np.uint8))
+
+def test_image_content_coerce_uint16_array():
+    from src.ell.types.message import ImageContent
+    arr = np.full((2, 2, 3), 65535, dtype=np.uint16)
+    result = ImageContent.coerce(arr)
+    assert np.array_equal(np.array(result.image), np.full((2, 2, 3), 255, dtype=np.uint8))
+
+def test_image_content_coerce_byteswapped_uint16_array():
+    from src.ell.types.message import ImageContent
+    arr = np.full((2, 2, 3), 32768, dtype='>u2')
+    result = ImageContent.coerce(arr)
+    assert np.array_equal(np.array(result.image), np.full((2, 2, 3), 128, dtype=np.uint8))
+
+def test_image_content_coerce_signed_int_array():
+    from src.ell.types.message import ImageContent
+    arr = np.full((2, 2, 3), 300, dtype=np.int32)
+    result = ImageContent.coerce(arr)
+    assert np.array_equal(np.array(result.image), np.full((2, 2, 3), 255, dtype=np.uint8))
+
+def test_image_content_coerce_bool_array():
+    from src.ell.types.message import ImageContent
+    arr = np.zeros((2, 2, 3), dtype=bool)
+    arr[0, 0] = True
+    result = ImageContent.coerce(arr)
+    out = np.array(result.image)
+    assert out.dtype == np.uint8
+    assert list(out[0, 0]) == [255, 255, 255]
+    assert list(out[1, 1]) == [0, 0, 0]
+
+def test_image_content_coerce_unsupported_dtype():
+    from src.ell.types.message import ImageContent
+    arr = np.zeros((2, 2, 3), dtype=np.complex128)
+    with pytest.raises(ValueError, match="Unsupported numpy dtype"):
+        ImageContent.coerce(arr)
+
+
 def test_serialization_of_content_block_with_parsed():
     class DummyFormattedResponse(BaseModel):
         field1: str

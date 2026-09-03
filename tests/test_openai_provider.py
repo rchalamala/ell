@@ -3,7 +3,7 @@ from typing import Dict
 import pydantic
 import pytest
 from unittest.mock import MagicMock, patch
-from ell.providers.openai import OpenAIProvider, _content_block_to_openai_format
+from ell.providers.openai import OpenAIProvider, _content_block_to_openai_format, _is_reasoning_model
 from ell.provider import EllCallParams
 from ell.types import Message, ContentBlock, ToolCall, ToolResult
 from openai import Client
@@ -544,3 +544,44 @@ def test_translate_to_provider_with_custom_stream_options():
     assert translated["custom_option"] is True
     assert translated["stream"] is True
     assert translated["stream_options"] == {"include_usage": True}
+
+@pytest.mark.parametrize("model,expected", [
+    ("o1", True),
+    ("o3-mini", True),
+    ("o4-mini-2025-04-16", True),
+    ("gpt-5", True),
+    ("gpt-5-mini", True),
+    ("gpt-4o", False),
+    ("gpt-4.1", False),
+    ("gpt-50", False),
+    ("o1xyz", False),
+    ("o3custom", False),
+    ("llama-3.1-70b", False),
+])
+def test_is_reasoning_model(model, expected):
+    assert _is_reasoning_model(model) is expected
+
+
+def test_translate_to_provider_reasoning_model_token_limit():
+    provider = OpenAIProvider()
+    call = EllCallParams(
+        client=MagicMock(),
+        api_params={"max_tokens": 100},
+        model="o3-mini",
+        messages=[Message(role="user", content=[ContentBlock(text="Hello")])],
+        tools=[]
+    )
+    translated = provider.translate_to_provider(call)
+    assert "max_tokens" not in translated
+    assert translated["max_completion_tokens"] == 100
+
+    call.api_params = {"max_tokens": 100, "max_completion_tokens": 50}
+    translated = provider.translate_to_provider(call)
+    assert "max_tokens" not in translated
+    assert translated["max_completion_tokens"] == 50
+
+    call.model = "gpt-4o"
+    call.api_params = {"max_tokens": 100}
+    translated = provider.translate_to_provider(call)
+    assert translated["max_tokens"] == 100
+    assert "max_completion_tokens" not in translated
