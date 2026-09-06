@@ -3,7 +3,7 @@ from ell.lmp.simple import simple
 import difflib
 
 # Todo: update this for single change stuff so that it doesn't summarize small chage but says it specifically.
-@simple(config.autocommit_model, temperature=0.2, exempt_from_tracking=True, max_tokens=500)
+@simple(config.autocommit_model, temperature=0.2, exempt_from_tracking=True, max_tokens=4096)
 def write_commit_message_for_diff(old : str, new : str) -> str:
     """You are an expert programmer whose goal is to write commit messages based on diffs.
 You will be given two version of source code and their unified diff.

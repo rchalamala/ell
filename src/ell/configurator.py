@@ -77,8 +77,8 @@ class Config(BaseModel):
         description="The default OpenAI client used when a specific model client is not found."
     )
     autocommit_model: str = Field(
-        default="gpt-4o-mini",
-        description="When set, changes the default autocommit model from GPT 4o mini."
+        default="moonshotai/Kimi-K3",
+        description="When set, changes the default autocommit model from Kimi K3 (served from Modal)."
     )
     providers: Dict[Type, Provider] = Field(
         default_factory=dict,
@@ -197,7 +197,7 @@ def init(
     lazy_versioning: bool = True,
     default_api_params: Optional[Dict[str, Any]] = None,
     default_client: Optional[Any] = None,
-    autocommit_model: str = "gpt-4o-mini"
+    autocommit_model: str = "moonshotai/Kimi-K3"
 ) -> None:
     """
     Initialize the ELL configuration with various settings.

@@ -289,7 +289,7 @@ Running this updated script will generate a new commit message:
 
     "Updated hello LMP: Added more adjectives, introduced random punctuation, and modified system prompt."
 
-ell's autocommit feature uses ``gpt-4o-mini`` to generate these commit messages automatically, providing a clear history of how your LMPs evolve.
+ell's autocommit feature uses Kimi K3 (``moonshotai/Kimi-K3``, served from a Modal Endpoint; set ``MODAL_PROXY_TOKEN`` to your Modal proxy token) to generate these commit messages automatically, providing a clear history of how your LMPs evolve. Pass ``autocommit_model=`` to ``ell.init`` to use a different model.
 
 
 .. image:: _static/auto_commit.png
