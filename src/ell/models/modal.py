@@ -10,9 +10,8 @@ client is used with a custom ``base_url``.
 Configuration is read from the environment:
 
 * ``MODAL_PROXY_TOKEN_ID`` / ``MODAL_PROXY_TOKEN_SECRET`` -- the proxy token
-  pair (``wk-…`` / ``ws-…``) as minted by ``modal workspace proxy-tokens create``,
-  or ``MODAL_PROXY_TOKEN`` in the combined ``wk-<id>.ws-<secret>`` form. Without
-  one of these no client is registered and the models below are left to the
+  pair (``wk-…`` / ``ws-…``) as minted by ``modal workspace proxy-tokens create``.
+  Without both no client is registered and the models below are left to the
   default client.
 * ``MODAL_ENDPOINT_URL`` -- optional override of the endpoint base URL
   (with or without the trailing ``/v1``). Defaults to the Kimi K3 endpoint.
@@ -47,24 +46,15 @@ def endpoint_base_url(endpoint_url: str) -> str:
     return endpoint_url.rstrip("/").removesuffix("/v1") + "/v1"
 
 
-def proxy_token_from_env() -> str | None:
-    token_id = os.environ.get("MODAL_PROXY_TOKEN_ID")
-    token_secret = os.environ.get("MODAL_PROXY_TOKEN_SECRET")
-    if token_id and token_secret:
-        return f"{token_id}.{token_secret}"
-    return os.environ.get("MODAL_PROXY_TOKEN") or None
-
-
 default_client = None
 try:
-    proxy_token = proxy_token_from_env()
-    if not proxy_token:
-        raise openai.OpenAIError(
-            "MODAL_PROXY_TOKEN_ID/MODAL_PROXY_TOKEN_SECRET (or MODAL_PROXY_TOKEN) not found in environment variables"
-        )
+    token_id = os.environ.get("MODAL_PROXY_TOKEN_ID")
+    token_secret = os.environ.get("MODAL_PROXY_TOKEN_SECRET")
+    if not (token_id and token_secret):
+        raise openai.OpenAIError("MODAL_PROXY_TOKEN_ID and MODAL_PROXY_TOKEN_SECRET not found in environment variables")
     default_client = openai.Client(
         base_url=endpoint_base_url(os.environ.get("MODAL_ENDPOINT_URL") or DEFAULT_ENDPOINT_URL),
-        api_key=proxy_token,
+        api_key=f"{token_id}.{token_secret}",
     )
 except openai.OpenAIError as e:
     pass
